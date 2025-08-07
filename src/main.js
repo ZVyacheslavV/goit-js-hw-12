@@ -1,6 +1,6 @@
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
-import { getImagesByQuery, NUMBER_OF_PAGES } from './js/pixabay-api';
+import { getImagesByQuery, PER_PAGE } from './js/pixabay-api';
 import { refs } from './js/refs';
 import {
   clearGallery,
@@ -12,7 +12,6 @@ import {
 } from './js/render-functions';
 
 let page = 1;
-
 let searchQuery;
 
 refs.searchForm.addEventListener('submit', e => {
@@ -39,7 +38,7 @@ refs.searchForm.addEventListener('submit', e => {
         return;
       }
 
-      if (page > totalHits / NUMBER_OF_PAGES) {
+      if (page > totalHits / PER_PAGE) {
         iziToast.error({
           position: 'topRight',
           message: "We're sorry, there are no more posts to load",
@@ -71,7 +70,7 @@ refs.loadMoreBtn.addEventListener('click', () => {
 
   getImagesByQuery(searchQuery, ++page)
     .then(({ hits, totalHits }) => {
-      if (page > totalHits / NUMBER_OF_PAGES) {
+      if (page > totalHits / PER_PAGE) {
         iziToast.error({
           position: 'topRight',
           message: "We're sorry, there are no more posts to load",

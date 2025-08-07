@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const NUMBER_OF_PAGES = 15;
+export const PER_PAGE = 15;
 
 export const getImagesByQuery = async (query, page) => {
   const BASE_URL = 'https://pixabay.com/api/';
@@ -13,7 +13,7 @@ export const getImagesByQuery = async (query, page) => {
       image_type: 'photo',
       orientation: 'horizontal',
       safesearch: true,
-      per_page: NUMBER_OF_PAGES,
+      per_page: PER_PAGE,
       page: page,
     },
   });
