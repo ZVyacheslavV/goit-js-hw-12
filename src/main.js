@@ -41,7 +41,7 @@ refs.searchForm.addEventListener('submit', e => {
       if (page > totalHits / PER_PAGE) {
         iziToast.error({
           position: 'topRight',
-          message: "We're sorry, there are no more posts to load",
+          message: 'There are all posts to load',
         });
         page = 1;
         return;
@@ -73,7 +73,7 @@ refs.loadMoreBtn.addEventListener('click', () => {
       if (page > totalHits / PER_PAGE) {
         iziToast.error({
           position: 'topRight',
-          message: "We're sorry, there are no more posts to load",
+          message: "We're sorry, but you've reached the end of search results.",
         });
         page = 1;
         return;
