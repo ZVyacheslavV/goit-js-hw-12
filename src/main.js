@@ -43,6 +43,7 @@ refs.searchForm.addEventListener('submit', e => {
           position: 'topRight',
           message: 'There are all posts to load',
         });
+        createGallery(hits);
         page = 1;
         return;
       }
@@ -50,6 +51,14 @@ refs.searchForm.addEventListener('submit', e => {
       createGallery(hits);
       showLoadMoreButton();
       page = 1;
+
+      const cardHeight = refs.gallery.firstChild.getBoundingClientRect().height;
+      console.log(cardHeight);
+
+      window.scrollBy({
+        top: cardHeight * 2,
+        behavior: 'smooth',
+      });
     })
     .catch(error => {
       iziToast.error({
