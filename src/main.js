@@ -53,8 +53,6 @@ refs.searchForm.addEventListener('submit', e => {
       page = 1;
 
       const cardHeight = refs.gallery.firstChild.getBoundingClientRect().height;
-      console.log(cardHeight);
-
       window.scrollBy({
         top: cardHeight * 2,
         behavior: 'smooth',
