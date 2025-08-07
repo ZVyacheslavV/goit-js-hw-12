@@ -57,6 +57,7 @@ refs.searchForm.addEventListener('submit', e => {
 refs.loadMoreBtn.addEventListener('click', () => {
   hideLoadMoreButton();
   showLoader();
+
   getImagesByQuery(searchQuery, ++page)
     .then(images => {
       createGallery(images);
@@ -64,6 +65,10 @@ refs.loadMoreBtn.addEventListener('click', () => {
     })
     .catch(error => {
       page = 1;
+      iziToast.error({
+        message: `There is an error during loading more images: ${error}`,
+        position: 'topRight',
+      });
       console.log(error);
     })
     .finally(() => {
