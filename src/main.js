@@ -1,6 +1,6 @@
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
-import { getImagesByQuery } from './js/pixabay-api';
+import { getImagesByQuery, NUMBER_OF_PAGES } from './js/pixabay-api';
 import { refs } from './js/refs';
 import {
   clearGallery,
@@ -12,6 +12,7 @@ import {
 } from './js/render-functions';
 
 let page = 1;
+
 let searchQuery;
 
 refs.searchForm.addEventListener('submit', e => {
@@ -28,8 +29,8 @@ refs.searchForm.addEventListener('submit', e => {
   showLoader();
 
   getImagesByQuery(searchQuery, page)
-    .then(images => {
-      if (!(images?.length > 0) /* !images || !images.length === 0 */) {
+    .then(({ hits, totalHits }) => {
+      if (!(hits?.length > 0) /* !images || !images.length === 0 */) {
         iziToast.error({
           message:
             'Sorry, there are no images matching your search query. Please try again!',
@@ -37,13 +38,23 @@ refs.searchForm.addEventListener('submit', e => {
         });
         return;
       }
-      createGallery(images);
+
+      if (page > totalHits / NUMBER_OF_PAGES) {
+        iziToast.error({
+          position: 'topRight',
+          message: "We're sorry, there are no more posts to load",
+        });
+        page = 1;
+        return;
+      }
+
+      createGallery(hits);
       showLoadMoreButton();
       page = 1;
     })
     .catch(error => {
       iziToast.error({
-        message: `There is an error with receiving images: ${error}`,
+        message: `There is an error with searching images: ${error}`,
         position: 'topRight',
       });
       console.log(error);
@@ -59,8 +70,17 @@ refs.loadMoreBtn.addEventListener('click', () => {
   showLoader();
 
   getImagesByQuery(searchQuery, ++page)
-    .then(images => {
-      createGallery(images);
+    .then(({ hits, totalHits }) => {
+      if (page > totalHits / NUMBER_OF_PAGES) {
+        iziToast.error({
+          position: 'topRight',
+          message: "We're sorry, there are no more posts to load",
+        });
+        page = 1;
+        return;
+      }
+
+      createGallery(hits);
       showLoadMoreButton();
     })
     .catch(error => {
