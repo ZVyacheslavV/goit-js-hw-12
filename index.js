@@ -1,7 +1,7 @@
-import{a as b,i as a,S as v}from"./assets/vendor-ChKhXQjG.js";(function(){const t=document.createElement("link").relList;if(t&&t.supports&&t.supports("modulepreload"))return;for(const e of document.querySelectorAll('link[rel="modulepreload"]'))n(e);new MutationObserver(e=>{for(const o of e)if(o.type==="childList")for(const l of o.addedNodes)l.tagName==="LINK"&&l.rel==="modulepreload"&&n(l)}).observe(document,{childList:!0,subtree:!0});function i(e){const o={};return e.integrity&&(o.integrity=e.integrity),e.referrerPolicy&&(o.referrerPolicy=e.referrerPolicy),e.crossOrigin==="use-credentials"?o.credentials="include":e.crossOrigin==="anonymous"?o.credentials="omit":o.credentials="same-origin",o}function n(e){if(e.ep)return;e.ep=!0;const o=i(e);fetch(e.href,o)}})();const $="https://pixabay.com/api/",w="51625695-85db02b03381982e3fb3bbea7",u=(r,t)=>b.get($,{params:{key:w,q:r,image_type:"photo",orientation:"horizontal",safesearch:!0,per_page:15,page:t}}).then(({data:i})=>!i.hits||i.hits.length===0?null:i.hits).catch(i=>(a.error({message:`There is an error during getting image: ${i}`,position:"topRight"}),console.log(i),null)),s={searchForm:document.querySelector(".form"),loader:document.querySelector(".loader"),gallery:document.querySelector(".gallery"),loadMoreBtn:document.querySelector(".load-btn")},B=new v(".gallery a",{captionsData:"alt",captionDelay:250}),p=r=>{const t=r.map(({webformatURL:i,largeImageURL:n,tags:e,likes:o,views:l,comments:y,downloads:L})=>`<li class="gallery-item">
+import{a as v,S as w,i as n}from"./assets/vendor-BK_rxH-O.js";(function(){const r=document.createElement("link").relList;if(r&&r.supports&&r.supports("modulepreload"))return;for(const e of document.querySelectorAll('link[rel="modulepreload"]'))l(e);new MutationObserver(e=>{for(const o of e)if(o.type==="childList")for(const c of o.addedNodes)c.tagName==="LINK"&&c.rel==="modulepreload"&&l(c)}).observe(document,{childList:!0,subtree:!0});function i(e){const o={};return e.integrity&&(o.integrity=e.integrity),e.referrerPolicy&&(o.referrerPolicy=e.referrerPolicy),e.crossOrigin==="use-credentials"?o.credentials="include":e.crossOrigin==="anonymous"?o.credentials="omit":o.credentials="same-origin",o}function l(e){if(e.ep)return;e.ep=!0;const o=i(e);fetch(e.href,o)}})();const d=15,g=async(t,r)=>{const i="https://pixabay.com/api/",l="51625695-85db02b03381982e3fb3bbea7",{data:e}=await v.get(i,{params:{key:l,q:t,image_type:"photo",orientation:"horizontal",safesearch:!0,per_page:d,page:r}});return e},a={searchForm:document.querySelector(".form"),loader:document.querySelector(".loader"),gallery:document.querySelector(".gallery"),loadMoreBtn:document.querySelector(".load-btn")},B=new w(".gallery a",{captionsData:"alt",captionDelay:250}),m=t=>{const r=t.map(({webformatURL:i,largeImageURL:l,tags:e,likes:o,views:c,comments:L,downloads:b})=>`<li class="gallery-item">
             <a
               class="gallery-link"
-              href="${n}"
+              href="${l}"
             >
               <img
                 class="gallery-image"
@@ -16,18 +16,18 @@ import{a as b,i as a,S as v}from"./assets/vendor-ChKhXQjG.js";(function(){const 
                 </li>
                 <li>
                   <p class="img-info-title">Views</p>
-                  <p class="img-info-value">${l}</p>
+                  <p class="img-info-value">${c}</p>
                 </li>
                 <li>
                   <p class="img-info-title">Comments</p>
-                  <p class="img-info-value">${y}</p>
+                  <p class="img-info-value">${L}</p>
                 </li>
                 <li>
                   <p class="img-info-title">Downloads</p>
-                  <p class="img-info-value">${L}</p>
+                  <p class="img-info-value">${b}</p>
                 </li>
               </ul>
             </a>
           </li>`).join(`
-`);s.gallery.insertAdjacentHTML("beforeend",t),B.refresh()},d=()=>{s.loader.classList.remove("hidden")},m=()=>{s.loader.classList.add("hidden")},M=()=>{s.gallery.innerHTML=""},h=()=>{s.loadMoreBtn.classList.add("shown")},f=()=>{s.loadMoreBtn.classList.remove("shown")};let g=1,c;s.searchForm.addEventListener("submit",r=>{if(r.preventDefault(),c=r.target.elements["search-text"].value.trim(),!c){a.error({message:"Please, fill the input",position:"topRight"});return}M(),f(),d(),u(c,g).then(t=>{if(!((t==null?void 0:t.length)>0)){a.error({message:"Sorry, there are no images matching your search query. Please try again!",position:"topRight"});return}p(t),h(),g=1}).catch(t=>{a.error({message:`There is an error with receiving images: ${t}`,position:"topRight"}),console.log(t)}).finally(()=>{m(),r.target.reset()})});s.loadMoreBtn.addEventListener("click",()=>{f(),d(),u(c,++g).then(r=>{p(r),h()}).catch(r=>{g=1,a.error({message:`There is an error during loading more images: ${r}`,position:"topRight"}),console.log(r)}).finally(()=>{m()})});
+`);a.gallery.insertAdjacentHTML("beforeend",r),B.refresh()},u=()=>{a.loader.classList.remove("hidden")},f=()=>{a.loader.classList.add("hidden")},M=()=>{a.gallery.innerHTML=""},h=()=>{a.loadMoreBtn.classList.add("shown")},y=()=>{a.loadMoreBtn.classList.remove("shown")};let s=1,p;a.searchForm.addEventListener("submit",t=>{if(t.preventDefault(),p=t.target.elements["search-text"].value.trim(),!p){n.error({message:"Please, fill the input",position:"topRight"});return}M(),y(),u(),g(p,s).then(({hits:r,totalHits:i})=>{if(!((r==null?void 0:r.length)>0)){n.error({message:"Sorry, there are no images matching your search query. Please try again!",position:"topRight"});return}if(s>i/d){n.error({position:"topRight",message:"We're sorry, there are no more posts to load"}),s=1;return}m(r),h(),s=1}).catch(r=>{n.error({message:`There is an error with searching images: ${r}`,position:"topRight"}),console.log(r)}).finally(()=>{f(),t.target.reset()})});a.loadMoreBtn.addEventListener("click",()=>{y(),u(),g(p,++s).then(({hits:t,totalHits:r})=>{if(s>r/d){n.error({position:"topRight",message:"We're sorry, there are no more posts to load"}),s=1;return}m(t),h()}).catch(t=>{s=1,n.error({message:`There is an error during loading more images: ${t}`,position:"topRight"}),console.log(t)}).finally(()=>{f()})});
 //# sourceMappingURL=index.js.map
