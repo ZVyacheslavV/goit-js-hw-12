@@ -6,22 +6,28 @@ import {
   clearGallery,
   createGallery,
   hideLoader,
+  hideLoadMoreButton,
   showLoader,
+  showLoadMoreButton,
 } from './js/render-functions';
+
+let page = 1;
+let searchQuery;
 
 refs.searchForm.addEventListener('submit', e => {
   e.preventDefault();
 
-  const searchQuery = e.target.elements['search-text'].value.trim();
+  searchQuery = e.target.elements['search-text'].value.trim();
   if (!searchQuery) {
     iziToast.error({ message: 'Please, fill the input', position: 'topRight' });
     return;
   }
 
   clearGallery();
+  hideLoadMoreButton();
   showLoader();
 
-  getImagesByQuery(searchQuery)
+  getImagesByQuery(searchQuery, page)
     .then(images => {
       if (!(images?.length > 0) /* !images || !images.length === 0 */) {
         iziToast.error({
@@ -32,6 +38,7 @@ refs.searchForm.addEventListener('submit', e => {
         return;
       }
       createGallery(images);
+      page = 1;
     })
     .catch(error => {
       iziToast.error({
@@ -43,5 +50,23 @@ refs.searchForm.addEventListener('submit', e => {
     .finally(() => {
       hideLoader();
       e.target.reset();
+      showLoadMoreButton();
+    });
+});
+
+refs.loadMoreBtn.addEventListener('click', () => {
+  hideLoadMoreButton();
+  showLoader();
+  getImagesByQuery(searchQuery, ++page)
+    .then(images => {
+      createGallery(images);
+      showLoadMoreButton();
+    })
+    .catch(error => {
+      page = 1;
+      console.log(error);
+    })
+    .finally(() => {
+      hideLoader();
     });
 });

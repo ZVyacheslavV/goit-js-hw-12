@@ -53,7 +53,7 @@ export const createGallery = images => {
     )
     .join('\n');
 
-  refs.gallery.innerHTML = markup;
+  refs.gallery.insertAdjacentHTML('beforeend', markup);
 
   galleryLightBox.refresh();
 };
@@ -68,4 +68,12 @@ export const hideLoader = () => {
 
 export const clearGallery = () => {
   refs.gallery.innerHTML = '';
+};
+
+export const showLoadMoreButton = () => {
+  refs.loadMoreBtn.classList.add('shown');
+};
+
+export const hideLoadMoreButton = () => {
+  refs.loadMoreBtn.classList.remove('shown');
 };
