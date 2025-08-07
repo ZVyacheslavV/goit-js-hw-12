@@ -38,6 +38,7 @@ refs.searchForm.addEventListener('submit', e => {
         return;
       }
       createGallery(images);
+      showLoadMoreButton();
       page = 1;
     })
     .catch(error => {
@@ -50,7 +51,6 @@ refs.searchForm.addEventListener('submit', e => {
     .finally(() => {
       hideLoader();
       e.target.reset();
-      showLoadMoreButton();
     });
 });
 
