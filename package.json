@@ -1,12 +1,12 @@
 {
-  "name": "-vite-with-push-app-template",
+  "name": "goit-js-hw-12",
   "private": true,
   "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "start": "vite",
-    "build": "vite build --base=/-vite-with-push-app-template/",
+    "build": "vite build --base=/goit-js-hw-12/",
     "preview": "vite preview",
     "push": "node node_scripts_personal/push.js"
   },
