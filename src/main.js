@@ -14,7 +14,7 @@ import {
 let page = 1;
 let searchQuery;
 
-refs.searchForm.addEventListener('submit', e => {
+refs.searchForm.addEventListener('submit', async e => {
   e.preventDefault();
 
   searchQuery = e.target.elements['search-text'].value.trim();
@@ -23,81 +23,74 @@ refs.searchForm.addEventListener('submit', e => {
     return;
   }
 
+  page = 1;
   clearGallery();
   hideLoadMoreButton();
   showLoader();
 
-  getImagesByQuery(searchQuery, page)
-    .then(({ hits, totalHits }) => {
-      if (!(hits?.length > 0) /* !images || !images.length === 0 */) {
-        iziToast.error({
-          message:
-            'Sorry, there are no images matching your search query. Please try again!',
-          position: 'topRight',
-        });
-        return;
-      }
+  try {
+    const { hits, totalHits } = await getImagesByQuery(searchQuery, page);
 
-      if (page > totalHits / PER_PAGE) {
-        iziToast.error({
-          position: 'topRight',
-          message: 'There are all posts to load',
-        });
-        createGallery(hits);
-        page = 1;
-        return;
-      }
-
-      createGallery(hits);
-      showLoadMoreButton();
-      page = 1;
-
-      const cardHeight = refs.gallery.firstChild.getBoundingClientRect().height;
-      window.scrollBy({
-        top: cardHeight * 2,
-        behavior: 'smooth',
+    if (!hits?.length) {
+      iziToast.error({
+        message:
+          'Sorry, there are no images matching your search query. Please try again!',
+        position: 'topRight',
       });
-    })
-    .catch(error => {
+      return;
+    }
+
+    if (page >= Math.ceil(totalHits / PER_PAGE)) {
+      iziToast.info({
+        position: 'topRight',
+        message: "We're sorry, but you've reached the end of search results.",
+      });
+    } else showLoadMoreButton();
+
+    createGallery(hits);
+    e.target.reset();
+  } catch {
+    error => {
       iziToast.error({
         message: `There is an error with searching images: ${error}`,
         position: 'topRight',
       });
       console.log(error);
-    })
-    .finally(() => {
-      hideLoader();
-      e.target.reset();
-    });
+    };
+  } finally {
+    hideLoader();
+  }
 });
 
-refs.loadMoreBtn.addEventListener('click', () => {
+refs.loadMoreBtn.addEventListener('click', async () => {
   hideLoadMoreButton();
   showLoader();
 
-  getImagesByQuery(searchQuery, ++page)
-    .then(({ hits, totalHits }) => {
-      if (page > totalHits / PER_PAGE) {
-        iziToast.error({
-          position: 'topRight',
-          message: "We're sorry, but you've reached the end of search results.",
-        });
-        page = 1;
-        return;
-      }
+  try {
+    const { hits, totalHits } = await getImagesByQuery(searchQuery, page + 1);
+    createGallery(hits);
+    page++;
 
-      createGallery(hits);
-      showLoadMoreButton();
-    })
-    .catch(error => {
-      page = 1;
+    if (page >= Math.ceil(totalHits / PER_PAGE)) {
+      iziToast.info({
+        position: 'topRight',
+        message: "We're sorry, but you've reached the end of search results.",
+      });
+    } else showLoadMoreButton();
+
+    window.scrollBy({
+      top: refs.gallery.firstChild.getBoundingClientRect().height * 2,
+      behavior: 'smooth',
+    });
+  } catch {
+    error => {
       iziToast.error({
         message: `There is an error during loading more images: ${error}`,
         position: 'topRight',
       });
       console.log(error);
-    })
-    .finally(() => {
-      hideLoader();
-    });
+    };
+  } finally {
+    hideLoader();
+  }
 });
