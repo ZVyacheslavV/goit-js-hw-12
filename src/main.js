@@ -41,14 +41,8 @@ refs.searchForm.addEventListener('submit', async e => {
       return;
     }
 
-    if (page >= Math.ceil(totalHits / PER_PAGE)) {
-      iziToast.info({
-        position: 'topRight',
-        message: "We're sorry, but you've reached the end of search results.",
-      });
-    } else {
-      showLoadMoreButton();
-    }
+    handlePagination(page, totalHits);
+
     e.target.reset();
     createGallery(hits);
   } catch (error) {
@@ -72,12 +66,7 @@ refs.loadMoreBtn.addEventListener('click', async () => {
     createGallery(hits);
     page++;
 
-    if (page >= Math.ceil(totalHits / PER_PAGE)) {
-      iziToast.info({
-        position: 'topRight',
-        message: "We're sorry, but you've reached the end of search results.",
-      });
-    } else showLoadMoreButton();
+    handlePagination(page, totalHits);
 
     window.scrollBy({
       top: refs.gallery.firstChild.getBoundingClientRect().height * 2,
@@ -93,3 +82,14 @@ refs.loadMoreBtn.addEventListener('click', async () => {
     hideLoader();
   }
 });
+
+function handlePagination(page, totalHits) {
+  if (page >= Math.ceil(totalHits / PER_PAGE)) {
+    iziToast.info({
+      position: 'topRight',
+      message: "We're sorry, but you've reached the end of search results.",
+    });
+  } else {
+    showLoadMoreButton();
+  }
+}
