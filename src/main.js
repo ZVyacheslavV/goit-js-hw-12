@@ -46,18 +46,17 @@ refs.searchForm.addEventListener('submit', async e => {
         position: 'topRight',
         message: "We're sorry, but you've reached the end of search results.",
       });
-    } else showLoadMoreButton();
-
-    createGallery(hits);
+    } else {
+      showLoadMoreButton();
+    }
     e.target.reset();
-  } catch {
-    error => {
-      iziToast.error({
-        message: `There is an error with searching images: ${error}`,
-        position: 'topRight',
-      });
-      console.log(error);
-    };
+    createGallery(hits);
+  } catch (error) {
+    iziToast.error({
+      message: `There is an error with searching images: ${error}`,
+      position: 'topRight',
+    });
+    console.log(error);
   } finally {
     hideLoader();
   }
@@ -84,14 +83,12 @@ refs.loadMoreBtn.addEventListener('click', async () => {
       top: refs.gallery.firstChild.getBoundingClientRect().height * 2,
       behavior: 'smooth',
     });
-  } catch {
-    error => {
-      iziToast.error({
-        message: `There is an error during loading more images: ${error}`,
-        position: 'topRight',
-      });
-      console.log(error);
-    };
+  } catch (error) {
+    iziToast.error({
+      message: `There is an error during loading more images: ${error}`,
+      position: 'topRight',
+    });
+    console.log(error);
   } finally {
     hideLoader();
   }
