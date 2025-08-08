@@ -12,13 +12,14 @@ import {
 } from './js/render-functions';
 
 let page = 1;
-let searchQuery;
+let query;
 
+//Searching form
 refs.searchForm.addEventListener('submit', async e => {
   e.preventDefault();
 
-  searchQuery = e.target.elements['search-text'].value.trim();
-  if (!searchQuery) {
+  query = e.target.elements['search-text'].value.trim();
+  if (!query) {
     iziToast.error({ message: 'Please, fill the input', position: 'topRight' });
     return;
   }
@@ -29,7 +30,7 @@ refs.searchForm.addEventListener('submit', async e => {
   showLoader();
 
   try {
-    const { hits, totalHits } = await getImagesByQuery(searchQuery, page);
+    const { hits, totalHits } = await getImagesByQuery(query, page);
 
     if (!hits?.length) {
       iziToast.error({
@@ -62,12 +63,13 @@ refs.searchForm.addEventListener('submit', async e => {
   }
 });
 
+//Load more button
 refs.loadMoreBtn.addEventListener('click', async () => {
   hideLoadMoreButton();
   showLoader();
 
   try {
-    const { hits, totalHits } = await getImagesByQuery(searchQuery, page + 1);
+    const { hits, totalHits } = await getImagesByQuery(query, page + 1);
     createGallery(hits);
     page++;
 
