@@ -51,9 +51,11 @@ refs.searchForm.addEventListener('submit', async e => {
       position: 'topRight',
     });
     console.log(error);
-  } finally {
+  } /* finally {
     hideLoader();
-  }
+  } */
+
+  hideLoader();
 });
 
 //Load more button
@@ -78,9 +80,11 @@ refs.loadMoreBtn.addEventListener('click', async () => {
       position: 'topRight',
     });
     console.log(error);
-  } finally {
+  } /* finally {
     hideLoader();
-  }
+  } */
+
+  hideLoader();
 });
 
 function handlePagination(page, totalHits) {
