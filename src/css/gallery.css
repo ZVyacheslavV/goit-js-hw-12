@@ -139,6 +139,11 @@
   display: block;
 }
 
+/* .loader */
+.hidden {
+  display: none;
+}
+
 /* == Loader == */
 .loader {
   position: relative;
@@ -196,9 +201,4 @@
     box-shadow: 0 0 0 1rem #6c8cff;
     opacity: 1;
   }
-}
-
-/* .loader */
-.hidden {
-  display: none;
 }
