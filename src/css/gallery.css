@@ -134,7 +134,8 @@
   margin: 32px auto;
 }
 
-.load-btn.shown {
+/* .load-btn */
+.shown {
   display: block;
 }
 
@@ -197,6 +198,7 @@
   }
 }
 
-.loader.hidden {
+/* .loader */
+.hidden {
   display: none;
 }
