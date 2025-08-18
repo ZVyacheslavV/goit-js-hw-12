@@ -14,6 +14,15 @@ import {
 let page = 1;
 let query;
 
+//Checking pagination function
+const handlePagination = (page, totalHits) =>
+  page < Math.ceil(totalHits / PER_PAGE)
+    ? showLoadMoreButton()
+    : iziToast.info({
+        position: 'topRight',
+        message: "We're sorry, but you've reached the end of search results.",
+      });
+
 //Searching form
 refs.searchForm.addEventListener('submit', async e => {
   e.preventDefault();
@@ -87,7 +96,7 @@ refs.loadMoreBtn.addEventListener('click', async () => {
   hideLoader();
 });
 
-function handlePagination(page, totalHits) {
+/* function handlePagination(page, totalHits) {
   if (page >= Math.ceil(totalHits / PER_PAGE)) {
     iziToast.info({
       position: 'topRight',
@@ -96,4 +105,4 @@ function handlePagination(page, totalHits) {
   } else {
     showLoadMoreButton();
   }
-}
+} */
